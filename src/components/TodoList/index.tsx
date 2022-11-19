@@ -7,6 +7,7 @@ import { ITodo } from '../../models/ITodo'
 import { Dispatch, FC, SetStateAction } from 'react'
 import { TodoItem } from '../TodoItem'
 import { calculatePagginationArray, calculateShowingResults } from '../../utils/paggination'
+import { TStatus } from '../../models/TStatus'
 
 interface ListProps {
     setLoading: Dispatch<SetStateAction<boolean>>
@@ -18,12 +19,12 @@ export const TodoList: FC<ListProps> = ({ setLoading, isLoading }) => {
     const [description, setDescription] = useState<string>('')
     const [date, setDate] = useState<string>('')
     const [files, setFiles] = useState<FileList | null>(null)
+    const [status, setStatus] = useState<TStatus>('Выполнено')
     const [todos, setTodos] = useState<ITodo[]>([])
     const [trigger, setTrigger] = useState<boolean>(false)
 
     //pagination
     const [choosenPage, setChoosenPage] = useState<number>(1)
-    const [filterPopupToogle, setFilterPopupToogle] = useState<boolean>(false)
     const step = 5
     const paggArr = calculatePagginationArray(step, todos.length)
 
@@ -65,7 +66,8 @@ export const TodoList: FC<ListProps> = ({ setLoading, isLoading }) => {
             const newTodo = {
                 heading: heading,
                 description: description,
-                dateEnd: dayjs(date).format()
+                dateEnd: dayjs(date).format(),
+                status: status
             }
 
             if (files?.length) {
@@ -92,6 +94,16 @@ export const TodoList: FC<ListProps> = ({ setLoading, isLoading }) => {
             } finally {
                 setTrigger(prev => !prev)
             }
+        }
+    }
+
+    const statusHandler = () => {
+        if(status === 'Не активно') {
+            setStatus('Активно')
+        } else if (status === 'Активно') {
+            setStatus('Выполнено')
+        } else {
+            setStatus('Не активно')
         }
     }
 
@@ -137,6 +149,10 @@ export const TodoList: FC<ListProps> = ({ setLoading, isLoading }) => {
                         type="file"
                         onChange={(e) => setFiles(e.target.files)}
                     />
+                </div>
+                <div className={s.input_wrapper}>
+                    <p className={s.status_heading}>Статус</p>
+                    <p onClick={statusHandler} className={s.status}>{status}</p>
                 </div>
             </div>
             <button onClick={AddPostHandler} className={s.button}>Добавить</button>

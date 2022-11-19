@@ -1,4 +1,4 @@
-import { Dayjs } from "dayjs"
+import { TStatus } from "./TStatus"
 
 export interface ITodo {
     heading: string
@@ -6,4 +6,5 @@ export interface ITodo {
     dateEnd: string
     file: string
     id: string
+    status: TStatus
 }

@@ -6,6 +6,7 @@ import ArrowIcon from '../../icons/arrow.png'
 import { userAPI } from '../../api/usersAPI'
 import { auth } from '../../firebase'
 import dayjs from 'dayjs'
+import { TStatus } from '../../models/TStatus'
 
 interface TodoItemProps {
     todo: ITodo
@@ -13,7 +14,7 @@ interface TodoItemProps {
     setTrigger: () => void
 }
 
-export const TodoItem: FC<TodoItemProps> = ({ todo, setLoading, setTrigger}) => {
+export const TodoItem: FC<TodoItemProps> = ({ todo, setLoading, setTrigger }) => {
     const [isUpdateMode, setUpdateMode] = useState<boolean>(false)
     const [toogle, setToogle] = useState<boolean>(false)
     const [files, setFiles] = useState<FileList | null>(null)
@@ -21,6 +22,7 @@ export const TodoItem: FC<TodoItemProps> = ({ todo, setLoading, setTrigger}) => 
     const [heading, setHeading] = useState<string>(todo.heading)
     const [description, setDescription] = useState<string>(todo.description)
     const [date, setDate] = useState<string>(dayjs(todo.dateEnd).format())
+    const [status, setStatus] = useState<TStatus>(todo.status)
 
     const user = auth.currentUser
 
@@ -29,7 +31,7 @@ export const TodoItem: FC<TodoItemProps> = ({ todo, setLoading, setTrigger}) => 
             const downloadFile = async () => {
                 try {
                     setFile(await userAPI.downloadFile(todo.file))
-                } catch (e) {}
+                } catch (e) { }
             }
             downloadFile()
         }
@@ -49,7 +51,8 @@ export const TodoItem: FC<TodoItemProps> = ({ todo, setLoading, setTrigger}) => 
             const updatedTodo = {
                 heading: heading,
                 description: description,
-                dateEnd: dayjs(date).format()
+                dateEnd: dayjs(date).format(),
+                status: status
             }
 
             if (files?.length) {
@@ -61,6 +64,7 @@ export const TodoItem: FC<TodoItemProps> = ({ todo, setLoading, setTrigger}) => 
             } catch (e) {
                 console.log(e)
             } finally {
+                setUpdateMode(false)
                 setTrigger()
             }
         }
@@ -76,6 +80,16 @@ export const TodoItem: FC<TodoItemProps> = ({ todo, setLoading, setTrigger}) => 
             } finally {
                 setTrigger()
             }
+        }
+    }
+
+    const statusHandler = () => {
+        if (status === 'Не активно') {
+            setStatus('Активно')
+        } else if (status === 'Активно') {
+            setStatus('Выполнено')
+        } else {
+            setStatus('Не активно')
         }
     }
 
@@ -123,6 +137,10 @@ export const TodoItem: FC<TodoItemProps> = ({ todo, setLoading, setTrigger}) => 
                             onChange={(e) => setFiles(e.target.files)}
                         />
                     </div>
+                    <div className={s.input_wrapper}>
+                        <p className={s.status_heading}>Статус</p>
+                        <p onClick={statusHandler} className={s.status_update}>{status}</p>
+                    </div>
                 </div>
                 : <div className={s.wrapper}>
                     <button
@@ -139,6 +157,7 @@ export const TodoItem: FC<TodoItemProps> = ({ todo, setLoading, setTrigger}) => 
                         <p className={s.heading}>{todo.heading}</p>
                         {dayjs() < dayjs(todo.dateEnd) ? <p className={s.date}>Срок прошел {dayjs(todo.dateEnd).diff(dayjs(), 'hour')} ч. назад</p> : <p className={s.date}>Выполнить до: {dayjs(todo.dateEnd).format('MMMM D, YYYY')}</p>}
                     </div>
+                    <p className={s.status}>{todo.status}</p>
 
                 </div>}
             {toogle &&
