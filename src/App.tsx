@@ -1,57 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { useState } from "react";
+import { Header } from "./components/Header";
+import { TodoList } from "./components/TodoList"
+import { SignPopup } from "./components/SignPopup";
+import { PageSpinner } from "./components/UI/Spinner";
+import { UserAuth } from "./context/AuthContext";
 
 function App() {
+  const [authPopupToogle, setAuthPopupToogle] = useState<boolean>(false)
+  const [isLoading, setLoading] = useState<boolean>(false)
+  const { user } = UserAuth()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <>
+      {isLoading && <PageSpinner />}
+      <Header setAuthPopupToogle={setAuthPopupToogle} />
+      {authPopupToogle && <SignPopup setAuthPopupToogle={setAuthPopupToogle} />}
+      <div className="container">
+        {user && <TodoList setLoading={setLoading} isLoading={isLoading} />}
+      </div>
+    </>
   );
 }
 

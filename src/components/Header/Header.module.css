@@ -1,0 +1,18 @@
+.section {
+    position: fixed;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--color-primary);
+}
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.heading {
+    font-size: 26px;
+    color: var(--color-white);
+}
+.user {
+    color: var(--color-white);
+}

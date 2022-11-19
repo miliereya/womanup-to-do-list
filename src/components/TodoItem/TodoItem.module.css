@@ -1,0 +1,212 @@
+.section {
+    margin-top: 20px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    color: var(--color-white);
+    border: 2px solid var(--color-primary);
+    background-color: var(--color-white);
+}
+
+.arrow_btn {
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+}
+
+.wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.arrow_btn {
+    cursor: pointer;
+}
+
+.arrow {
+    width: 30px;
+    height: 30px;
+    rotate: 180deg;
+    animation: rotate 0.4s;
+}
+
+.arrowDown {
+    width: 30px;
+    height: 30px;
+    rotate: 0;
+    animation: rotateDown 0.4s;
+}
+
+@keyframes rotateDown {
+    0% {
+        rotate: 180deg;
+    }
+
+    100% {
+        rotate: 0deg;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        rotate: 0deg;
+    }
+
+    100% {
+        rotate: 180deg;
+    }
+}
+
+.heading {
+    color: var(--color-primary);
+    font-size: 18px;
+}
+
+.top_wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-left: 15px;
+}
+
+.toogle_wrapper {
+    animation: input_wrapper 0.2s;
+}
+
+@keyframes input_wrapper {
+    0% {
+        position: absolute;
+        margin-top: -50px;
+        opacity: 0;
+    }
+
+    60% {
+        margin-top: -20px;
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+        margin-top: 0;
+    }
+}
+
+.middle_wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.description {
+    color: var(--color-primary);
+    width: 60%;
+}
+
+.date {
+    color: var(--color-primary);
+}
+
+.file {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+.button_wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.update_button,
+.delete_button,
+.save_button,
+.cansel_button {
+    width: 47%;
+    padding: 5px;
+    margin-top: 5px;
+    font-size: 17px;
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 10px;
+    border: 2px solid var(--color-primary);
+    transition: 0.3s;
+}
+
+.update_button {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.update_button:hover {
+    color: var(--color-primary);
+    background-color: var(--color-white);
+}
+
+.delete_button {
+    background-color: var(--color-delete);
+    color: var(--color-white);
+    border: none;
+}
+
+.delete_button:hover {
+    background-color: var(--color-delete);
+    color: var(--color-delete);
+    background-color: var(--color-white);
+    border: 2px solid var(--color-delete);
+}
+
+.update_button_wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 47%;
+}
+
+.save_button {
+    width: 49%;
+    background-color: var(--color-white);
+    color: var(--color-primary);
+}
+
+.save_button:hover {
+    color: var(--color-white);
+    background-color: var(--color-primary);
+}
+
+.cansel_button {
+    width: 49%;
+    background-color: var(--color-white);
+    border: 2px solid var(--color-warning);
+    color: var(--color-warning);
+}
+
+.cansel_button:hover {
+    color: var(--color-white);
+    background-color: var(--color-warning);
+}
+
+.add_wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    color: var(--color-white);
+    background-color: var(--color-primary);
+}
+.input_wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 24%;
+}
+.input_wrapper label {
+    text-align: center;
+    margin-bottom: 5px;
+}
+.input {
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    color: var(--color-dark);
+    font-weight: 700;
+}

@@ -1,0 +1,96 @@
+.section {
+    padding-top: 46px;
+}
+
+.add_wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    color: var(--color-white);
+    background-color: var(--color-primary);
+}
+
+.input_wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 24%;
+}
+
+.input_wrapper label {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.input {
+    padding: 5px 10px;
+    border-radius: 10px;
+    border: none;
+    color: var(--color-dark);
+    font-weight: 700;
+}
+
+.button {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+    font-size: 17px;
+    color: var(--color-primary);
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 10px;
+    border: 2px solid var(--color-primary);
+    background: var(--color-white);
+    transition: 0.3s;
+}
+
+.button:hover {
+    color: var(--color-white);
+    background-color: var(--color-primary);
+}
+
+.try_text {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 22px;
+    color: var(--color-dark);
+    font-weight: 500;
+}
+
+.button_delete {
+    text-align: center;
+    margin-top: 15px;
+    width: 100%;
+    border: none;
+    background-color: inherit;
+    color: var(--color-delete);
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.results {
+    text-align: center;
+    margin: 10px 0;
+    color: var(--color-primary);
+}
+
+.paggination_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.paggination_button {
+    background: inherit;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    margin: 5px 5px 5px 0;
+    border-radius: 3px;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+}
