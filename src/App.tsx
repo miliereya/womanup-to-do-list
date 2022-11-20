@@ -16,7 +16,7 @@ function App() {
       <Header setAuthPopupToogle={setAuthPopupToogle} />
       {authPopupToogle && <SignPopup setAuthPopupToogle={setAuthPopupToogle} />}
       <div className="container">
-        {user && <TodoList setLoading={setLoading} isLoading={isLoading} />}
+        {user && <TodoList setLoading={setLoading} />}
       </div>
     </>
   );

@@ -10,7 +10,7 @@ interface ButtonProps {
 }
 
 export const Button: FC<ButtonProps> = ({
-    text, 
+    text,
     onClick,
     margin = '0',
     padding = '4px 7px',

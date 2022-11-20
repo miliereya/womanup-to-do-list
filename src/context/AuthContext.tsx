@@ -9,9 +9,9 @@ import {
 import { auth } from '../firebase'
 
 interface AuthContextProps {
-    googleSignIn: any
+    googleSignIn: any 
     logOut: any
-    user: User | null
+    user: User | null //null if user is not signed in
 }
 
 const authInitialState = {
@@ -31,13 +31,16 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) 
 
     const googleSignIn = () => {
         const provider = new GoogleAuthProvider()
-        signInWithPopup(auth, provider)
+
+        //with redirect
+        signInWithPopup(auth, provider) 
     }
 
     const logOut = () => {
         signOut(auth)
     }
 
+    //setting active user
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser)
@@ -48,12 +51,13 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({ children }) 
     }, [])
 
     return (
-        <AuthContext.Provider value={{googleSignIn, logOut, user}}>
+        <AuthContext.Provider value={{ googleSignIn, logOut, user }}>
             {children}
         </AuthContext.Provider>
     )
 }
 
+//getting userContext
 export const UserAuth = () => {
     return useContext(AuthContext)
 }

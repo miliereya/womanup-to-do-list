@@ -1,4 +1,8 @@
-export const calculatePagginationArray = (step: number, length: number) => {
+export const calculatePagginationArray = (step: number, length: number): number[] => {
+    //step (number of items displayed on page)
+    //length (number of items in array)
+    //returns array of nums that shows how many items should be displayed on page
+
     let pages = length / step
     let paggArr: number[] = []
 
@@ -14,7 +18,12 @@ export const calculatePagginationArray = (step: number, length: number) => {
     return paggArr
 }
 
+//Show results in choosen range
 export const calculateShowingResults = (choosenPage: number, step: number, length: number) => {
+    //step (number of items displayed on page)
+    //length (number of items in array)
+    //returns array of nums that shows how many items should be displayed on page
+
     let i = 1
     let result: number = i
     while (i < choosenPage) {

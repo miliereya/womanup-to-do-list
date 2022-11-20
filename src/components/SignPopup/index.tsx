@@ -7,8 +7,7 @@ interface SignPopupProps {
     setAuthPopupToogle: Dispatch<SetStateAction<boolean>>
 }
 
-export const SignPopup:FC<SignPopupProps> = ({setAuthPopupToogle}) => {
-
+export const SignPopup: FC<SignPopupProps> = ({ setAuthPopupToogle }) => {
     const { googleSignIn } = UserAuth()
 
     const GoogleSignInHandler = async () => {
@@ -24,7 +23,7 @@ export const SignPopup:FC<SignPopupProps> = ({setAuthPopupToogle}) => {
         <div className={s.section}>
             <div className={s.wrapper}>
                 <h4 className={s.heading}>Войти с помощью</h4>
-                <GoogleButton onClick={GoogleSignInHandler}/>
+                <GoogleButton onClick={GoogleSignInHandler} />
             </div>
         </div>
     )

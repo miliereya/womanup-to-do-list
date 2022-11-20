@@ -8,12 +8,14 @@
     background: rgba(48, 37, 37, 0.35);
     z-index: 99;
 }
+
 .wrapper {
     padding: 30px 40px;
     background-color: var(--color-white);
     border-radius: 10px;
     border: 2px solid var(--color-border);
 }
+
 .heading {
     text-align: center;
     margin-bottom: 20px;

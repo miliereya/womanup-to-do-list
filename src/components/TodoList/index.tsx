@@ -8,19 +8,31 @@ import { Dispatch, FC, SetStateAction } from 'react'
 import { TodoItem } from '../TodoItem'
 import { calculatePagginationArray, calculateShowingResults } from '../../utils/paggination'
 import { TStatus } from '../../models/TStatus'
+import { Form } from '../Form'
+import { Tfilter } from '../../models/TFilter'
+import ArrowIcon from '../../icons/arrow.png'
 
 interface ListProps {
     setLoading: Dispatch<SetStateAction<boolean>>
-    isLoading: boolean
 }
 
-export const TodoList: FC<ListProps> = ({ setLoading, isLoading }) => {
+export const TodoList: FC<ListProps> = ({ setLoading }) => {
+    //filter
+    const [filter, setFilter] = useState<Tfilter>('Все')
+    const [filterPopupToogle, setFilterPopupToogle] = useState<boolean>(false)
+    const filters: Tfilter[] = ["Все", "Выполнено", "Активно", "Не активно"]
+
+    //props
     const [heading, setHeading] = useState<string>('')
     const [description, setDescription] = useState<string>('')
     const [date, setDate] = useState<string>('')
     const [files, setFiles] = useState<FileList | null>(null)
     const [status, setStatus] = useState<TStatus>('Выполнено')
+
+    //fetched todos
     const [todos, setTodos] = useState<ITodo[]>([])
+
+    //trigger for latest data
     const [trigger, setTrigger] = useState<boolean>(false)
 
     //pagination
@@ -28,10 +40,12 @@ export const TodoList: FC<ListProps> = ({ setLoading, isLoading }) => {
     const step = 5
     const paggArr = calculatePagginationArray(step, todos.length)
 
+    //user
     const user = auth.currentUser
 
+    //fetching todo
     useEffect(() => {
-        if (user?.uid) {
+        if (user?.uid) { // checking if user exist
             const fetchTodos = async () => {
                 try {
                     setLoading(true)
@@ -53,7 +67,7 @@ export const TodoList: FC<ListProps> = ({ setLoading, isLoading }) => {
     }, [trigger])
 
     const AddPostHandler = async () => {
-        if (user?.uid) {
+        if (user?.uid) { //checking if user exist
             let file: null | File = null
             if (!heading) {
                 alert('Заголовок не может быть пустым')
@@ -79,7 +93,7 @@ export const TodoList: FC<ListProps> = ({ setLoading, isLoading }) => {
             } catch (e) {
                 console.log(e)
             } finally {
-                setTrigger(!trigger)
+                setTrigger(!trigger) //triggering for fetching latest data
             }
         }
     }
@@ -97,71 +111,51 @@ export const TodoList: FC<ListProps> = ({ setLoading, isLoading }) => {
         }
     }
 
-    const statusHandler = () => {
-        if(status === 'Не активно') {
-            setStatus('Активно')
-        } else if (status === 'Активно') {
-            setStatus('Выполнено')
-        } else {
-            setStatus('Не активно')
-        }
-    }
-
     return (
         <div className={s.section}>
-            <div className={s.add_wrapper}>
-                <div className={s.input_wrapper}>
-                    <label htmlFor="heading">Заголовок</label>
-                    <input
-                        id='heading'
-                        className={s.input}
-                        type="text"
-                        required={true}
-                        value={heading}
-                        onChange={(e) => setHeading(e.target.value)}
-                    />
-                </div>
-                <div className={s.input_wrapper}>
-                    <label htmlFor="description">Описание</label>
-                    <input
-                        id='description'
-                        className={s.input}
-                        type="text"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-                </div>
-                <div className={s.input_wrapper}>
-                    <label htmlFor="dateEnd">Выполнить до</label>
-                    <input
-                        id='dateEnd'
-                        className={s.input}
-                        type="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                    />
-                </div>
-                <div className={s.input_wrapper}>
-                    <label htmlFor="dateEnd">Прикрепить файл</label>
-                    <input
-                        id='file'
-                        className={s.input}
-                        type="file"
-                        onChange={(e) => setFiles(e.target.files)}
-                    />
-                </div>
-                <div className={s.input_wrapper}>
-                    <p className={s.status_heading}>Статус</p>
-                    <p onClick={statusHandler} className={s.status}>{status}</p>
-                </div>
-            </div>
+            <Form
+                heading={heading}
+                setHeading={setHeading}
+                description={description}
+                setDescription={setDescription}
+                date={date}
+                setDate={setDate}
+                setFiles={setFiles}
+                status={status}
+                setStatus={setStatus}
+            />
             <button onClick={AddPostHandler} className={s.button}>Добавить</button>
-            <p className={s.results}>
-                Показано{todos.length > step ? ' ' + calculateShowingResults(choosenPage, step, todos.length) :
-                    ` ${todos.length}`} из {todos.length} задач
-            </p>
+            <div className={s.filter_wrapper}>
+                <div className={s.filter}>Фильтр: <span>{filter}</span>
+                    <img
+                        onClick={() => setFilterPopupToogle(!filterPopupToogle)}
+                        className={s.arrow_icon}
+                        src={ArrowIcon}
+                        alt="arrow"
+                        style={{ rotate: filterPopupToogle ? '0deg' : '180deg' }}
+                    />
+                    <div className={s.filter_popup} style={{ display: filterPopupToogle ? 'flex' : 'none' }}>
+                        {filters.map(filter => {
+                            return (
+                                <button
+                                    key={filter}
+                                    className={s.filter_btn}
+                                    onClick={() => { setFilter(filter); setFilterPopupToogle(false) }}
+                                >
+                                    {filter}
+                                </button>
+                            )
+                        })}
+                    </div>
+                </div>
+                <p className={s.results}>
+                    Показано{todos.length > step ? ' ' + calculateShowingResults(choosenPage, step, todos.length) :
+                        ` ${todos.length}`} из {todos.length} задач
+                </p>
+            </div>
             {todos.length !== 0 && todos.map((todo, index) => {
                 if (index < choosenPage * step - step || index > choosenPage * step - 1) return
+                if (filter !== 'Все' && todo.status !== filter) return
                 return <TodoItem
                     setLoading={setLoading}
                     key={todo.id}

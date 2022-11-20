@@ -25,9 +25,9 @@ export const Header: FC<HeaderProps> = ({ setAuthPopupToogle }) => {
                     <h1 className={s.heading}>To-do-list</h1>
                     {user?.displayName ?
                         <div className={s.user}>
-                            {user.displayName} 
-                            <Button 
-                                text='Выйти' 
+                            {user.displayName}
+                            <Button
+                                text='Выйти'
                                 onClick={logOutHandler}
                                 margin='0 0 0 10px'
                             />

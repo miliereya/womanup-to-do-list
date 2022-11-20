@@ -185,31 +185,6 @@
     background-color: var(--color-warning);
 }
 
-.add_wrapper {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    padding: 5px 10px;
-    border-radius: 10px;
-    color: var(--color-white);
-    background-color: var(--color-primary);
-}
-.input_wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 19%;
-}
-.input_wrapper label {
-    text-align: center;
-    margin-bottom: 5px;
-}
-.input {
-    padding: 5px 10px;
-    border-radius: 10px;
-    border: none;
-    color: var(--color-dark);
-    font-weight: 700;
-}
 .status {
     margin-left: 20px;
     width: 100px;

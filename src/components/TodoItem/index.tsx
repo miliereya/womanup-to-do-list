@@ -7,25 +7,37 @@ import { userAPI } from '../../api/usersAPI'
 import { auth } from '../../firebase'
 import dayjs from 'dayjs'
 import { TStatus } from '../../models/TStatus'
+import { Form } from '../Form'
 
 interface TodoItemProps {
     todo: ITodo
     setLoading: Dispatch<SetStateAction<boolean>>
-    setTrigger: () => void
+
+    //trigger for fetching latest data
+    setTrigger: () => void 
 }
 
 export const TodoItem: FC<TodoItemProps> = ({ todo, setLoading, setTrigger }) => {
+    //modes
     const [isUpdateMode, setUpdateMode] = useState<boolean>(false)
+
+    //opens full todo
     const [toogle, setToogle] = useState<boolean>(false)
-    const [files, setFiles] = useState<FileList | null>(null)
-    const [file, setFile] = useState<string>(todo.file)
+ 
+    //input props
+    const [files, setFiles] = useState<FileList | null>(null)  
     const [heading, setHeading] = useState<string>(todo.heading)
     const [description, setDescription] = useState<string>(todo.description)
     const [date, setDate] = useState<string>(dayjs(todo.dateEnd).format())
     const [status, setStatus] = useState<TStatus>(todo.status)
 
+    //file url
+    const [file, setFile] = useState<string>(todo.file)
+
+    //user
     const user = auth.currentUser
 
+    //download file
     useEffect(() => {
         if (todo.file) {
             const downloadFile = async () => {
@@ -38,6 +50,8 @@ export const TodoItem: FC<TodoItemProps> = ({ todo, setLoading, setTrigger }) =>
     }, [])
 
     const updatePostHandler = async () => {
+
+        //check if user exist
         if (user?.uid) {
             let file: null | File = null
             if (!heading) {
@@ -83,65 +97,20 @@ export const TodoItem: FC<TodoItemProps> = ({ todo, setLoading, setTrigger }) =>
         }
     }
 
-    const statusHandler = () => {
-        if (status === 'Не активно') {
-            setStatus('Активно')
-        } else if (status === 'Активно') {
-            setStatus('Выполнено')
-        } else {
-            setStatus('Не активно')
-        }
-    }
-
     return (
         <div className={s.section}>
             {isUpdateMode ?
-                <div className={s.add_wrapper}>
-                    <div className={s.input_wrapper}>
-                        <label htmlFor="heading">Заголовок</label>
-                        <input
-                            id='heading'
-                            className={s.input}
-                            type="text"
-                            required={true}
-                            value={heading}
-                            onChange={(e) => setHeading(e.target.value)}
-                        />
-                    </div>
-                    <div className={s.input_wrapper}>
-                        <label htmlFor="description">Описание</label>
-                        <input
-                            id='description'
-                            className={s.input}
-                            type="text"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
-                    </div>
-                    <div className={s.input_wrapper}>
-                        <label htmlFor="dateEnd">Выполнить до</label>
-                        <input
-                            id='dateEnd'
-                            className={s.input}
-                            type="date"
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
-                        />
-                    </div>
-                    <div className={s.input_wrapper}>
-                        <label htmlFor="dateEnd">Прикрепить файл</label>
-                        <input
-                            id='file'
-                            className={s.input}
-                            type="file"
-                            onChange={(e) => setFiles(e.target.files)}
-                        />
-                    </div>
-                    <div className={s.input_wrapper}>
-                        <p className={s.status_heading}>Статус</p>
-                        <p onClick={statusHandler} className={s.status_update}>{status}</p>
-                    </div>
-                </div>
+                <Form
+                    heading={heading}
+                    setHeading={setHeading}
+                    description={description}
+                    setDescription={setDescription}
+                    date={date}
+                    setDate={setDate}
+                    setFiles={setFiles}
+                    status={status}
+                    setStatus={setStatus}
+                />
                 : <div className={s.wrapper}>
                     <button
                         className={s.arrow_btn}

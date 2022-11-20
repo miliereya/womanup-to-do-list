@@ -2,46 +2,48 @@
     padding-top: 46px;
 }
 
-.add_wrapper {
+.filter {
+    color: var(--color-primary);
+}
+
+.filter span {
+    color: var(--color-button);
+}
+
+.filter_wrapper {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
-    padding: 5px 10px;
-    border-radius: 10px;
-    color: var(--color-white);
-    background-color: var(--color-primary);
-}
-
-.input_wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 19%;
-}
-
-.input_wrapper label {
-    text-align: center;
-    margin-bottom: 5px;
-}
-
-.input {
-    padding: 5px 10px;
-    border-radius: 10px;
-    border: none;
-    color: var(--color-dark);
-    font-weight: 700;
-}
-
-.status_heading {
-    text-align: center;
-}
-
-.status {
-    text-align: center;
     margin-top: 10px;
-    font-weight: 500;
-    letter-spacing: 1px;
+}
+.arrow_icon {
+    width: 15px;
+    height: 15px;
+    margin-left: 8px;
+    background: inherit;
     cursor: pointer;
-    text-decoration: underline;
+}
+
+.filter_popup {
+    position: absolute;
+    flex-direction: column;
+    color: var(--color-primary);
+    z-index: 5;
+    margin-top: 5px;
+    border: 2px solid var(--color-primary);
+}
+
+.filter_btn {
+    width: 100%;
+    padding: 5px;
+    background-color: var(--color-white);
+    z-index: 2;
+    border: none;
+    cursor: pointer;
+    color: var(--color-primary);
+}
+
+.filter_btn:hover {
+    color: var(--color-button);
 }
 
 .button {
@@ -85,7 +87,6 @@
 
 .results {
     text-align: center;
-    margin: 10px 0;
     color: var(--color-primary);
 }
 
